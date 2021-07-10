@@ -31,6 +31,9 @@ import           Text.Printf         (printf)
 {-# OPTIONS_GHC -fno-warn-unused-imports #-}
 
 {-# INLINABLE mkValidator #-}
+-- First argument -> Datarum
+-- Second Argument -> Redemeer
+-- 3 Argument -> Context
 mkValidator :: Data -> Data -> Data -> ()
 mkValidator _ r _
     | r == I 42 = ()

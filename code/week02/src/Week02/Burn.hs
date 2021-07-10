@@ -32,6 +32,9 @@ import           Text.Printf         (printf)
 
 {-# INLINABLE mkValidator #-}
 mkValidator :: Data -> Data -> Data -> ()
+-- validation always failed
+--  :t PlutusTx.Prelude.error
+-- mkValidator _ _ _ = error ()
 mkValidator _ _ _ = traceError "BURNT!"
 
 validator :: Validator

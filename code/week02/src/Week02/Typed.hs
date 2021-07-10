@@ -32,6 +32,7 @@ import           Text.Printf          (printf)
 
 {-# INLINABLE mkValidator #-}
 mkValidator :: () -> Integer -> ScriptContext -> Bool
+-- :t PlutusTx.Prelude.traceIfFalse
 mkValidator _ r _ = traceIfFalse "wrong redeemer" $ r == 42
 
 data Typed
@@ -61,6 +62,7 @@ type GiftSchema =
 
 give :: AsContractError e => Integer -> Contract w s e ()
 give amount = do
+    -- for typeed, you can use mustPayToTheScript
     let tx = mustPayToTheScript () $ Ada.lovelaceValueOf amount
     ledgerTx <- submitTxConstraints typedValidator tx
     void $ awaitTxConfirmed $ txId ledgerTx
