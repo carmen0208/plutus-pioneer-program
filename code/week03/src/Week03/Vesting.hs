@@ -81,7 +81,8 @@ data GiveParams = GiveParams
     , gpDeadline    :: !POSIXTime
     , gpAmount      :: !Integer
     } deriving (Generic, ToJSON, FromJSON, ToSchema)
-
+-- Offchain Part
+-- Define the interface that we want to exposed to the User
 type VestingSchema =
             Endpoint "give" GiveParams
         .\/ Endpoint "grab" ()
@@ -100,6 +101,8 @@ give gp = do
         (show $ gpBeneficiary gp)
         (show $ gpDeadline gp)
 
+-- For grab, grap current time, lookup my public Key.
+-- Looking at all utxo's that sitting for this address, but fitler those
 grab :: forall w s e. AsContractError e => Contract w s e ()
 grab = do
     now   <- currentTime

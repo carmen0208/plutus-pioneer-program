@@ -43,6 +43,7 @@ data VestingParam = VestingParam
 PlutusTx.makeLift ''VestingParam
 
 {-# INLINABLE mkValidator #-}
+-- ScriptContext reference: https://alpha.marlowe.iohkdev.io/doc/haddock/plutus-ledger-api/html/Plutus-V1-Ledger-Contexts.html
 mkValidator :: VestingParam -> () -> () -> ScriptContext -> Bool
 mkValidator p () () ctx = traceIfFalse "beneficiary's signature missing" signedByBeneficiary &&
                           traceIfFalse "deadline not reached" deadlineReached
@@ -63,6 +64,8 @@ instance Scripts.ValidatorTypes Vesting where
 
 typedValidator :: VestingParam -> Scripts.TypedValidator Vesting
 typedValidator p = Scripts.mkTypedValidator @Vesting
+-- Or:
+--  ($$(PlutusTx.compile [|| mkValidator p||]) will get a error
     ($$(PlutusTx.compile [|| mkValidator ||]) `PlutusTx.applyCode` PlutusTx.liftCode p)
     $$(PlutusTx.compile [|| wrap ||])
   where
