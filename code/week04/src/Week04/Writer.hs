@@ -3,15 +3,35 @@ module Week04.Writer where
 import Control.Monad
 import Week04.Monad
 
+-- data Car = Car
+--   { company :: String,
+--     model :: String,
+--     year :: Int
+--   }
+--   deriving (Show)
+
+-- data Car a b c = Car
+--   { company :: a,
+--     model :: b,
+--     year :: c
+--   }
+--   deriving (Show)
+-- 这个a代表你并不知道Write的第一个参数到底是什么类型Type
+-- 所以她可以是Int，也可以是其他的。
+-- 接下来的定义定义了如果Write为Int的时候的情况的binding
+-- 但是我有点搞不懂，如果不是Int又怎么样嘛
 data Writer a = Writer a [String]
     deriving Show
 
 number :: Int -> Writer Int
 number n = Writer n $ ["number: " ++ show n]
 
+-- number1 :: Int -> Writer Int
+-- number1 n = Writer n (["number: " ++ show n])
 tell :: [String] -> Writer ()
 tell = Writer ()
 
+-- foo (number 2) (number 4) (number 8)
 foo :: Writer Int -> Writer Int -> Writer Int -> Writer Int
 foo (Writer k xs) (Writer l ys) (Writer m zs) =
   let
@@ -27,6 +47,7 @@ bindWriter (Writer a xs) f =
   in
     Writer b $ xs ++ ys
 
+-- 这个function就是解决了如果write第一个参数是Int，的时候，做什么操作。
 foo' :: Writer Int -> Writer Int -> Writer Int -> Writer Int
 foo' x y z = x `bindWriter` \k ->
              y `bindWriter` \l ->

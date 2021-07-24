@@ -3,6 +3,9 @@ module Week04.Maybe where
 import Text.Read (readMaybe)
 import Week04.Monad
 
+-- Prelude Data.Char Text.Read> read "42"::Int
+-- 42
+
 foo :: String -> String -> String -> Maybe Int
 foo x y z = case readMaybe x of
     Nothing -> Nothing

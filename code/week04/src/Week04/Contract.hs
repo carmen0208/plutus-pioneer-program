@@ -13,10 +13,17 @@ import Plutus.Contract            as Contract
 import Plutus.Trace.Emulator      as Emulator
 import Wallet.Emulator.Wallet
 
+-- https://alpha.marlowe.iohkdev.io/doc/haddock/plutus-contract/html/Plutus-Contract.html#t:Contract
+-- a is the result type, is the overall result of the computation
+-- w is allows the contract to log messages of type w
+-- w is visible from the outside
+-- s specifis the endpoints
+-- e is the type of error messages
 -- Contract w s e a
 -- EmulatorTrace a
 
 myContract1 :: Contract () Empty Text ()
+-- myContract1 = Contract.logInfo @String "hello from the contract"
 myContract1 = do
     void $ Contract.throwError "BOOM!"
     Contract.logInfo @String "hello from the contract"
